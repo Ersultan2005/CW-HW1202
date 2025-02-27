@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Threads{% endblock %}
+
+{% block content %}
+    <h2>Threads</h2>
+    <ul class="list-group">
+        {% for thread in threads %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'thread_detail' thread.id %}">{{ thread.name }}</a>
+                <div>
+                    <a href="{% url 'thread_edit' thread.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'thread_delete' thread.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </li>
+        {% empty %}
+            <p>No threads yet. Create one below!</p>
+        {% endfor %}
+    </ul>
+
+    <!-- Кнопка, открывающая модальное окно -->
+    <button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#createThreadModal">
+      Create New Thread
+    </button>
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="createThreadModal" tabindex="-1" aria-labelledby="createThreadModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Форма создания Thread -->
+          <form method="POST">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h5 class="modal-title" id="createThreadModalLabel">Create a New Thread</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {{ form.as_p }}
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+    

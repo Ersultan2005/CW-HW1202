@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Публикации</h1>
+    
+    <h2 class="mt-4">Добавить новое сообщение</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create Post</button>
+    </form>
+    
+    <hr>
+    <h2>Existing Posts</h2>
+    <ul class="list-group">
+        {% for post in posts %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+            
+            <form action="{% url 'post_delete' post.id %}" method="post" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+        {% empty %}
+        <li class="list-group-item">No posts available.</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Список Todo</h1>
+
+        <!-- Форма создания нового списка -->
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createTodoListModal">Добавить список</button>
+
+        <!-- Вывод списков -->
+        {% if lists %}
+            <ul class="list-group">
+                {% for todo_list in lists %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'todo_list_detail' todo_list.id %}">{{ todo_list.title }}</a>
+                        <div>
+                            <a href="{% url 'edit_todo_list' todo_list.id %}" class="btn btn-sm btn-warning">Редактировать</a>
+                            <a href="{% url 'delete_todo_list' todo_list.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">Нет списков задач.</p>
+        {% endif %}
+    </div>
+
+    <!-- Модальное окно для создания списка -->
+    <div class="modal fade" id="createTodoListModal" tabindex="-1" aria-labelledby="createTodoListModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createTodoListModalLabel">Добавить новый список</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success">Создать</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ thread.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ thread.name }}</h1>
+<p>{{ thread.description }}</p>
+
+<hr>
+
+<h3>Посты:</h3>
+<ul class="list-group">
+  {% for post in posts %}
+    <li class="list-group-item">
+      <h5>{{ post.title }}</h5>
+      {% if post.picture %}
+        <img src="{{ post.picture.url }}" alt="post picture" class="img-thumbnail" style="max-width: 200px;">
+      {% endif %}
+      <p>{{ post.description }}</p>
+      <small>Автор: {{ post.author }}</small>
+      <div class="mt-2">
+        <a href="{% url 'post_edit' post.id %}" class="btn btn-sm btn-warning">Редактировать</a>
+        <a href="{% url 'post_delete' post.id %}" class="btn btn-sm btn-danger">Удалить</a>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Кнопка для модального окна создания Post -->
+<button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#createPostModal">
+  Создать пост
+</button>
+
+<!-- Модальное окно создания Post -->
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" enctype="multipart/form-data" action="{% url 'thread_detail' thread.id %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="createPostModalLabel">Создание поста</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="postTitle" class="form-label">Заголовок</label>
+            <input type="text" class="form-control" name="title" id="postTitle" required>
+          </div>
+          <div class="mb-3">
+            <label for="postPicture" class="form-label">Картинка</label>
+            <input type="file" class="form-control" name="picture" id="postPicture">
+          </div>
+          <div class="mb-3">
+            <label for="postDescription" class="form-label">Описание</label>
+            <textarea class="form-control" name="description" id="postDescription" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="postAuthor" class="form-label">Автор</label>
+            <input type="text" class="form-control" name="author" id="postAuthor" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-primary">Создать</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

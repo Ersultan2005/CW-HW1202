@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список задач</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Список задач</h2>
+    <table>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        {% for todo in todos %}
+        <tr>
+            <td>{{ todo.title }}</td>
+            <td>{{ todo.description }}</td>
+            <td>{{ todo.due_date }}</td>
+            <td>{% if todo.status %}✅ Выполнено{% else %}❌ В процессе{% endif %}</td>
+            <td>
+                <a href="{% url 'todo-delete' todo.id %}">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'todo-create' %}">Добавить новую задачу</a>
+</body>
+</html>

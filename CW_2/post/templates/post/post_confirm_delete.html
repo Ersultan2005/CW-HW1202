@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Delete Post</h1>
+    <p>Are you sure you want to delete the post "<strong>{{ post.title }}</strong>"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'posts' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
