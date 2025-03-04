@@ -1,0 +1,14 @@
+{% extends 'todos/base.html' %}
+
+{% block content %}
+<h2>Your Todos</h2>
+<a class="btn btn-primary mb-3" href="{% url 'create_todo' %}">Add Todo</a>
+<ul class="list-group">
+    {% for todo in todos %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'todo_detail' todo.id %}">{{ todo.title }}</a>
+            <a href="{% url 'delete_todo' todo.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
