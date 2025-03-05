@@ -1,0 +1,22 @@
+body {
+    background-color: #343a40; /* тёмно-серый фон */
+    color: #f8f9fa; /* светлый текст */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3 {
+    color: #ffcc00; /* яркий желтый */
+}
+
+/* Кнопки */
+.btn-primary {
+    background-color: #ffcc00;
+    border-color: #ffcc00;
+    color: #343a40;
+}
+.btn-primary:hover {
+    background-color: #e6b800;
+}
+
+
+
